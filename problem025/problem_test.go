@@ -29,4 +29,3 @@ func Test_nDigitFibonacciNumber(t *testing.T) {
 func Test_Result(t *testing.T) {
 	Result()
 }
-
