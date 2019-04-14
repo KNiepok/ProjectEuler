@@ -18,7 +18,10 @@ import (
 //Which starting number, under one million, produces the longest chain?
 //
 //NOTE: Once the chain starts the terms are allowed to go above one million.
+var mapped map[int]int
+
 func longestCollatzChain(maxNumber int) int {
+	initMapped()
 	max := 1
 	number := 1
 	for i := 1; i < maxNumber; i++ {
@@ -33,23 +36,29 @@ func longestCollatzChain(maxNumber int) int {
 	return number
 }
 
-func collatzChainLength(i int) int {
-	l := 0
+func initMapped() {
+	mapped = make(map[int]int)
+	mapped[1] = 1
+}
 
-	val := i
-	for true {
-		l++
-		if val == 1 {
-			break
-		}
-
-		if val%2 == 0 {
-			val /= 2
-		} else {
-			val = 3*val + 1
-		}
+func collatzChainLength(value int) int {
+	if cached, exists := mapped[value]; exists {
+		return cached
+	}
+	if value == 1 {
+		return 1
 	}
 
+	// main case
+	if value%2 == 0 {
+		value /= 2
+	} else {
+		value = 3*value + 1
+	}
+
+	l := collatzChainLength(value) + 1
+
+	mapped[value] = l
 	return l
 }
 
